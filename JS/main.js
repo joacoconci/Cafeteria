@@ -5,6 +5,9 @@ function Cafe(Tipo, Tamano) {
 }
 
 
+
+
+
 //Crear objetos const de la clase cafe con tipo(Capuccino, Café , Leche Sola, Lágrima, Cortado, Café con Leche, Charly y Facherito), todos con tamano bool false.
 const CafeSolo = new Cafe('Café', true);
 const Cortado = new Cafe('Cortado', true);
@@ -14,13 +17,6 @@ const Capuccino = new Cafe('Capuccino', false);
 const LecheSola = new Cafe('Leche Sola', true);
 const Charly = new Cafe('Charly', false);
 const Facherito = new Cafe('Facherito', false);
-
-
-
-let cortado;
-let conLeche;
-let lagrima;
-let capuccino;
 
 //OBJETOS
 
@@ -46,141 +42,114 @@ const cmdCharly = document.getElementById("cmdCharly");
 const cmdFacherito = document.getElementById("cmdFacherito");
 
 
-
-//HABILITAR CONTADORES
-
-// Crear una funcion como la siguiente para todos las variables que comiencen con chk
-// chkCortado.addEventListener("change", function(habilitarCortado) {
-//     if (chkCortado.checked) {
-//         cmdCortado.style.display = "";
-//     } else cmdCortado.style.display = "none";
-//     cmdCortado.value = "0";
-// });
-
-
-// //Crear una funcion para todos los objetos que comiencen con chk
-// chkCafe.addEventListener("change", function(habilitarCafe) {
-//     if (chkCafe.checked) {
-//         cmdCafe.style.display = "";
-//     } else cmdCafe.style.display = "none";
-//     cmdCafe.value = "0";
-// });
-
-
-// chkCortado.addEventListener("change", function(habilitarCortado) {
-//     if (chkCortado.checked) {
-//         cmdCortado.style.display = "";
-//     } else cmdCortado.style.display = "none";
-//     cmdCortado.value = "0";
-// });
-
-
-// chkConLeche.addEventListener("change", function(habilitarConLeche) {
-//     if (chkConLeche.checked) {
-//         cmdConLeche.style.display = "";
-//     } else cmdConLeche.style.display = "none";
-//     cmdConLeche.value = "0";
-// });
-
-
-// chkLagrima.addEventListener("change", function(habilitarLagrima) {
-//     if (chkLagrima.checked) {
-//         cmdLagrima.style.display = "";
-//     } else cmdLagrima.style.display = "none";
-//     cmdLagrima.value = "0";
-// });
-
-
-// chkCapuccino.addEventListener("change", function(habilitarCapuccino) {
-//     if (chkCapuccino.checked) {
-//         cmdCapuccino.style.display = "";
-//     } else cmdCapuccino.style.display = "none";
-//     cmdCapuccino.value = "0";
-// });
-
-
-// chkLeche.addEventListener("change", function(habilitarLeche) {
-//     if (chkLeche.checked) {
-//         cmdLeche.style.display = "";
-//     } else cmdLeche.style.display = "none";
-//     cmdLeche.value = "0";
-// });
-
-
-// chkCharly.addEventListener("change", function(habilitarCharly) {
-//     if (chkCharly.checked) {
-//         cmdCharly.style.display = "";
-//     } else {cmdCharly.style.display = "none";
-//     cmdCharly.value = "0";}
-// });
-
-
-// chkFacherito.addEventListener("change", function(habilitarFacherito) {
-//     if (chkFacherito.checked) {
-//         cmdFacherito.style.display = "";
-//         activarAceptar();
-//     } else {
-//         cmdFacherito.style.display = "none";
-//         cmdFacherito.value = "0";
-//         desactivarAceptar();
-//     }
-// });
-
 function verificarChecked() {
     //Busca todos los checkbox en el documento html
     var checkboxes = document.querySelectorAll("input[type=checkbox]");
-    let enabledSettings = []
+    let checkboxesActivados = []
 
     // Mete todos los que estan checked a un array.
     checkboxes.forEach(function(checkbox) {
         checkbox.addEventListener('change', function() {
-            enabledSettings =
+            checkboxesActivados =
                 Array.from(checkboxes) // Convierte los cheboxes en un array
                 .filter(i => i.checked) // Usa filter para remover los que no esten checked.
                 .map(i => i.value) // Usa map para sacar sólo el valor de los checkbox.
-            console.log(enabledSettings)
-            if (enabledSettings.length > 0) {
-                activarAceptar();
+            console.log(checkboxesActivados)
+            activarContadores(checkboxesActivados);
+
+
+            if (checkboxesActivados.length > 0) {
+                activarBotones();
             } else {
-                desactivarAceptar();
+                desactivarBotones();
             }
+            return checkboxesActivados;
         })
     });
 }
 
 verificarChecked();
 
-function activarAceptar() {
+
+function activarContadores(array) {
+    if (array.includes("CafeSolo")) {
+        cmdCafe.style.display = "";
+        cmdCafe.value = "0";
+    } else {
+        cmdCafe.style.display = "none";
+        cmdCafe.value = "0";
+    }
+
+    if (array.includes("Cortado")) {
+        cmdCortado.style.display = "";
+        cmdCortado.value = "0";
+    } else {
+        cmdCortado.style.display = "none";
+        cmdCortado.value = "0";
+    }
+
+    if (array.includes("ConLeche")) {
+        cmdConLeche.style.display = "";
+        cmdConLeche.value = "0";
+    } else {
+        cmdConLeche.style.display = "none";
+        cmdConLeche.value = "0";
+    }
+
+    if (array.includes("Lagrima")) {
+        cmdLagrima.style.display = "";
+        cmdLagrima.value = "0";
+    } else {
+        cmdLagrima.style.display = "none";
+        cmdLagrima.value = "0";
+    }
+
+    if (array.includes("Capuccino")) {
+        cmdCapuccino.style.display = "";
+        cmdCapuccino.value = "0";
+    } else {
+        cmdCapuccino.style.display = "none";
+        cmdCapuccino.value = "0";
+    }
+
+    if (array.includes("Leche")) {
+        cmdLeche.style.display = "";
+        cmdLeche.value = "0";
+    } else {
+        cmdLeche.style.display = "none";
+        cmdLeche.value = "0";
+    }
+
+    if (array.includes("Charly")) {
+        cmdCharly.style.display = "";
+        cmdCharly.value = "0";
+    } else {
+        cmdCharly.style.display = "none";
+        cmdCharly.value = "0";
+    }
+
+    if (array.includes("Facherito")) {
+        cmdFacherito.style.display = "";
+        cmdFacherito.value = "0";
+    } else {
+        cmdFacherito.style.display = "none";
+        cmdFacherito.value = "0";
+    }
+}
+
+function activarBotones() {
     btnEnviar.style.display = "";
     btnCancelar.style.display = "";
 }
 
-function desactivarAceptar() {
+function desactivarBotones() {
     btnEnviar.style.display = "none";
     btnCancelar.style.display = "none";
 }
 
+function desactivarContadores() {
 
-
-
-//<-------------- HABILITAR ACEPTAR -------------->
-chkCortado.addEventListener("change", function(activarAceptar) {
-    if (
-        chkCafe.checked ||
-        chkCortado.checked ||
-        chkConLeche.checked ||
-        chkLagrima.checked ||
-        chkCapuccino.checked ||
-        chkLeche.checked ||
-        chkCharly.checked ||
-        chkFacherito.checked
-    ) {
-        btnEnviar.style.display = "";
-        btnCancelar.style.display = "";
-    } else(btnEnviar.style.display = "none"), (btnCancelar.style.display = "none");
-});
-
-
+}
 
 // <-------------- MOSTRAR DATOS (ACEPTAR) ---------------->
 
@@ -188,60 +157,32 @@ chkCortado.addEventListener("change", function(activarAceptar) {
 
 const urlDesktop = 'https://web.whatsapp.com/';
 const urlMobile = 'whatsapp://';
-const phone = '3525455485';
+const numeroTelefono = '543525611674';
+const cant = '3';
+const tipobebida = 'cafe';
+var mensaje = "https://api.whatsapp.com/send?phone=" + numeroTelefono + "&text=---%20%C2%A1*Hola%20Charly*!%20---%0AQueremos%20hacer%20el%20siguiente%20pedido%20para%20el%20piso%207%3A%20" + cant + "%20" + tipobebida + ".%0A";
 
-function isMobile() {
-    if (sessionStorage.desktop)
-        return false;
-    else if (localStorage.mobile)
-        return true;
-    var mobile = ['iphone', 'ipad', 'android', 'blackberry', 'nokia', 'opera mini', 'windows mobile', 'windows phone', 'iemobile'];
-    for (var i in mobile)
-        if (navigator.userAgent.toLowerCase().indexOf(mobile[i].toLowerCase()) > 0) return true;
-    return false;
-}
 btnEnviar.addEventListener("click", function(e) {
 
 
     setTimeout(() => {
+        // let message = phone;
+        window.open(mensaje);
 
-
-
-        let message = phone;
-        if (isMobile()) {
-            window.open(urlMobile + message, '_blank')
-        } else {
-            window.open(urlDesktop + message, '_blank')
-        }
-
-    }, 2000);
-
+        //     if (isMobile()) {
+        //         window.open(urlMobile + message, '_blank')
+        //     } else {
+        //         window.open(urlDesktop + message, '_blank')
+        //     }
+        // }, 2000);;
+    })
 });
-
-
 
 // <------------- BOTON CANCELAR ---------------->
 
 btnCancelar.addEventListener("click", function(limpiar) {
-    chkCortado.checked = false;
-    cmdCortado.style.display = "none";
-    btnCancelar.style.display = "none";
-    btnEnviar.style.display = "none";
-
-    chkConLeche.checked = false;
-    cmdConLeche.style.display = "none";
-    btnCancelar.style.display = "none";
-    btnEnviar.style.display = "none";
-
-    chkLagrima.checked = false;
-    cmdLagrima.style.display = "none";
-    btnCancelar.style.display = "none";
-    btnEnviar.style.display = "none";
-
-    chkCapuccino.checked = false;
-    cmdCapuccino.style.display = "none";
-    btnCancelar.style.display = "none";
-    btnEnviar.style.display = "none";
+    desactivarBotones();
+    desactivarContadores();
 
     cortado = parseInt(cmdCortado.value);
     conLeche = parseInt(cmdConLeche.value);
