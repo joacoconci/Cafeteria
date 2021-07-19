@@ -52,6 +52,7 @@ label {
     backdrop-filter: blur(4px); */
     border-radius: 8px;
     justify-content: center;
+    
 }
 
 .contenedorInputs {
@@ -66,6 +67,7 @@ label {
     backdrop-filter: blur(4px);
     box-sizing: border-box;
     border-radius: 41px;
+    
 }
 
 

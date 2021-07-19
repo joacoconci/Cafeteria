@@ -4,10 +4,6 @@ function Cafe(Tipo, Tamano) {
     this.Tamano = Tamano;
 }
 
-
-
-
-
 //Crear objetos const de la clase cafe con tipo(Capuccino, Café , Leche Sola, Lágrima, Cortado, Café con Leche, Charly y Facherito), todos con tamano bool false.
 const CafeSolo = new Cafe('Café', true);
 const Cortado = new Cafe('Cortado', true);
@@ -45,7 +41,7 @@ const cmdFacherito = document.getElementById("cmdFacherito");
 function verificarChecked() {
     //Busca todos los checkbox en el documento html
     var checkboxes = document.querySelectorAll("input[type=checkbox]");
-    let checkboxesActivados = []
+    var checkboxesActivados = []
 
     // Mete todos los que estan checked a un array.
     checkboxes.forEach(function(checkbox) {
@@ -57,11 +53,10 @@ function verificarChecked() {
             console.log(checkboxesActivados)
             activarContadores(checkboxesActivados);
 
-
             if (checkboxesActivados.length > 0) {
-                activarBotones();
+                cambiarBotones(true);
             } else {
-                desactivarBotones();
+                cambiarBotones(false);
             }
             return checkboxesActivados;
         })
@@ -137,18 +132,65 @@ function activarContadores(array) {
     }
 }
 
-function activarBotones() {
-    btnEnviar.style.display = "";
-    btnCancelar.style.display = "";
+
+
+// <-------------- CAMBIAR VALORES (ACEPTAR) ---------------->
+// Estas funciones muestran o esconden todos los checkboxes y contadores en la app,
+// dependiendo del valor que se le pasa por parametro. Ej.:
+// cambiarContadores(true) --> enciende todos los contadores en el html.
+
+//NOTA: Se pueden mejorar ambas funciones para pasar un array sólo con los valores que se quieren cambiar.
+// caso contrario que el array esté vacío o no se pase, cambiará todas las opciones dependiendo del flag.
+
+function cambiarBotones(flag){
+    if(flag){
+        btnCancelar.style.display = "";
+        btnEnviar.style.display = "";
+    } else {
+        btnEnviar.style.display = "none";
+        btnCancelar.style.display = "none";
+    }
 }
 
-function desactivarBotones() {
-    btnEnviar.style.display = "none";
-    btnCancelar.style.display = "none";
+function cambiarContadores(flag)
+{
+    var value = "0"
+    var display = ""
+
+    if(flag){
+        display = ""
+    } else {
+        display = "none"
+    }
+
+    var inputArray = new Array();
+    inputArray = document.getElementsByTagName("input");
+    for (var i=0; i<inputArray.length; i++)  {
+        if (inputArray[i].type == 'number') {
+            inputArray[i].style.display = display;
+            inputArray[i].value = value;
+        }
+    }
 }
 
-function desactivarContadores() {
+function cambiarCheckboxes(flag)
+{
+    var value = "0"
+    var display = ""
 
+    if(flag){
+        display = ""
+    } else {
+        display = "none"
+    }
+
+    var inputArray = new Array();
+    inputArray = document.getElementsByTagName("input");
+    for (var i=0; i<inputArray.length; i++)  {
+        if (inputArray[i].type == 'checkbox') {
+            inputArray[i].checked = flag;
+        }
+    }
 }
 
 // <-------------- MOSTRAR DATOS (ACEPTAR) ---------------->
@@ -164,25 +206,62 @@ var mensaje = "https://api.whatsapp.com/send?phone=" + numeroTelefono + "&text=-
 
 btnEnviar.addEventListener("click", function(e) {
 
+    // setTimeout(() => {
+    //     // let message = phone;
+    //     window.open(mensaje);
 
-    setTimeout(() => {
-        // let message = phone;
-        window.open(mensaje);
+    //     //     if (isMobile()) {
+    //     //         window.open(urlMobile + message, '_blank')
+    //     //     } else {
+    //     //         window.open(urlDesktop + message, '_blank')
+    //     //     }
+    //     // }, 2000);;
+    // })
 
-        //     if (isMobile()) {
-        //         window.open(urlMobile + message, '_blank')
-        //     } else {
-        //         window.open(urlDesktop + message, '_blank')
-        //     }
-        // }, 2000);;
-    })
+    $("#btnEnviar").click(function() {
+        swal({
+            title: "¿Estamos listos?",
+            text: "Deseas enviar este pedido el pedido a Charly?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willSend) => {
+            if (willSend) {
+              swal("¡Excelente! Confirmá en la ventana de Whatsapp para enviar pedido.", {
+                icon: "success",
+            });
+            } else {
+              swal("Se canceló el pedido, pero aún podés modificarlo.", {
+              icon: "error",
+              })
+            };
+        })
+    });
 });
 
 // <------------- BOTON CANCELAR ---------------->
 
 btnCancelar.addEventListener("click", function(limpiar) {
-    desactivarBotones();
-    desactivarContadores();
+    $("#btnCancelar").click(function() {
+        swal({
+            title: "Cancelar pedido",
+            text: "¿Deseas cancelar el pedido?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willSend) => {
+            if (willSend) {
+              swal("¡Pedido cancelado!", {
+                icon: "error",
+            });
+            cambiarBotones(false);
+            cambiarCheckboxes(false);
+            cambiarContadores(false);
+            };
+        })
+    });
 
     cortado = parseInt(cmdCortado.value);
     conLeche = parseInt(cmdConLeche.value);
