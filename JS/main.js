@@ -1,5 +1,7 @@
 // Instancias de inputs(checkbox y contadores-numbers) y botones.
 
+// const { default: Swal } = require("sweetalert2");
+
 let chkCafe = document.getElementById("chkCafe");
 let chkCortado = document.getElementById("chkCortado")
 let chkConLeche = document.getElementById("chkConLeche");
@@ -29,17 +31,17 @@ function verificarChecked() {
     var checkboxesDesactivados = [];
 
     // Mete todos los que estan checked a un array.
-    checkboxes.forEach(function (checkbox) {
-        checkbox.addEventListener('change', function () {
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
             checkboxesActivados =
                 Array.from(checkboxes) // Convierte los cheboxes en un array
-                    .filter(i => i.checked) // Usa filter para remover los que no esten checked.
-                    .map(i => i.value) // Usa map para sacar sólo el valor de los checkbox.
+                .filter(i => i.checked) // Usa filter para remover los que no esten checked.
+                .map(i => i.value) // Usa map para sacar sólo el valor de los checkbox.
 
             checkboxesTodos =
                 Array.from(checkboxes)
-                    // .filter(i => i.checked == false) 
-                    .map(i => i.value)
+                // .filter(i => i.checked == false) 
+                .map(i => i.value)
 
             activarContadores(checkboxesTodos);
 
@@ -52,6 +54,7 @@ function verificarChecked() {
         })
     });
 }
+
 
 verificarChecked(); // Funcion principal: Verifica si hay algún checkbox activado, si lo hay, activa contadores y botones. 
 
@@ -77,8 +80,7 @@ function cambiarContadores(flag) {
     var value = "0"
     var display = ""
 
-    if (flag) { display = "" }
-    else { display = "none" }
+    if (flag) { display = "" } else { display = "none" }
 
     var inputArray = new Array();
     inputArray = document.getElementsByTagName("input");
@@ -96,10 +98,10 @@ function activarContadores(arrayContadores) {
         var seleccionarElemento = document.getElementById("cmd" + elementoActual);
         if (document.getElementById("chk" + arrayContadores[i]).checked) {
             seleccionarElemento.style.display = "";
-            seleccionarElemento.value = "0";
+            // seleccionarElemento.value = "0";
         } else {
             seleccionarElemento.style.display = "none";
-            seleccionarElemento.value = "0";
+            seleccionarElemento.value = "1";
         }
     }
 }
@@ -146,16 +148,46 @@ function cambiarCheckboxes(flag) {
     }
 }
 
+function ConcatenarPedido() {
+    var pedido = "";
+    var total = 0;
+    var checkboxes = document.querySelectorAll("input[type=checkbox]");
+    var counters = document.querySelectorAll("input[type=number]");
+    for (var i = 0; i < checkboxes.length, i < counters.length; i++) {
+        if (checkboxes[i].checked) {
+            pedido += checkboxes[i].value + ": ";
+            pedido += counters[i].value + "; ";
+            total += parseInt(counters[i].value);
+        }
+    }
+    // console.log(pedido);
+    // console.log(total);
+    return [pedido, total];
+}
+
+
+
+
+
+
+
+
+
 // <-------------- MOSTRAR DATOS (ACEPTAR) ---------------->
 
-const urlDesktop = 'https://web.whatsapp.com/';
-const urlMobile = 'whatsapp://';
-const numeroTelefono = '543525611674';
-const cant = '3';
-const tipobebida = 'cafe';
-var mensaje = "https://api.whatsapp.com/send?phone=" + numeroTelefono + "&text=---%20%C2%A1*Hola%20Charly*!%20---%0AQueremos%20hacer%20el%20siguiente%20pedido%20para%20el%20piso%207%3A%20" + cant + "%20" + tipobebida + ".%0A";
 
-btnEnviar.addEventListener("click", function (e) {
+btnEnviar.addEventListener("click", function(e) {
+
+
+    a = ConcatenarPedido();
+
+    const urlDesktop = 'https://web.whatsapp.com/';
+    const urlMobile = 'whatsapp://';
+    const numeroTelefono = '543517374139';
+    const cant = '3';
+    const tipobebida = 'cafe';
+    var mensaje = "https://api.whatsapp.com/send?phone=" + numeroTelefono + "&text=---%20%C2%A1*Hola%20Charly*!%20---%0AQueremos%20hacer%20el%20siguiente%20pedido%20para%20el%20piso%207%3A%20" + a[0] + "%20" + " /// Total del pedido: " + a[1].toString() + ".%0A";
+
 
     // setTimeout(() => {
     //     // let message = phone;
@@ -169,19 +201,24 @@ btnEnviar.addEventListener("click", function (e) {
     //     // }, 2000);;
     // })
 
-    $("#btnEnviar").click(function () {
+    console.log("El pedido es el siguiente: " + a[0]);
+    console.log("El total de pedidos: " + a[1].toString());
+
+
+    $("#btnEnviar").click(function() {
         swal({
-            title: "¿Estamos listos?",
-            text: "Deseas enviar este pedido el pedido a Charly?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
+                title: "¿Estamos listos?",
+                text: "Deseas enviar este pedido el pedido a Charly?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
             .then((willSend) => {
                 if (willSend) {
                     swal("¡Excelente! Confirmá en la ventana de Whatsapp para enviar pedido.", {
                         icon: "success",
-                    });
+                    })
+                    window.open(mensaje);;
                 } else {
                     swal("Se canceló el pedido, pero aún podés modificarlo.", {
                         icon: "error",
@@ -193,15 +230,15 @@ btnEnviar.addEventListener("click", function (e) {
 
 // <------------- BOTON CANCELAR ---------------->
 
-btnCancelar.addEventListener("click", function (limpiar) {
-    $("#btnCancelar").click(function () {
+btnCancelar.addEventListener("click", function(limpiar) {
+    $("#btnCancelar").click(function() {
         swal({
-            title: "Cancelar pedido",
-            text: "¿Deseas cancelar el pedido?",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        })
+                title: "Cancelar pedido",
+                text: "¿Deseas cancelar el pedido?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
             .then((willSend) => {
                 if (willSend) {
                     swal("¡Pedido cancelado!", {
@@ -213,11 +250,6 @@ btnCancelar.addEventListener("click", function (limpiar) {
                 };
             })
     });
-
-    cortado = parseInt(cmdCortado.value);
-    conLeche = parseInt(cmdConLeche.value);
-    lagrima = parseInt(cmdLagrima.value);
-    capuccino = parseInt(cmdCapuccino.value);
 
     console.clear();
 });

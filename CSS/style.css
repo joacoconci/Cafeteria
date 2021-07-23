@@ -5,6 +5,10 @@ html {
     font-family: "Roboto", sans-serif;
 }
 
+body {
+    background-color: #323232;
+}
+
 *,
 *:before,
 *:after {
@@ -35,12 +39,15 @@ label {
 
 /* Imagen */
 
+
+/* 
 .imagenHeader {
+    background-color: #323232;
     background-image: url(../asset/img/4477349.jpg);
     background-position: left bottom;
     height: 100vh;
     z-index: 2;
-}
+} */
 
 .box {
     position: relative;
@@ -52,7 +59,6 @@ label {
     backdrop-filter: blur(4px); */
     border-radius: 8px;
     justify-content: center;
-    
 }
 
 .contenedorInputs {
@@ -67,7 +73,7 @@ label {
     backdrop-filter: blur(4px);
     box-sizing: border-box;
     border-radius: 41px;
-    
+    margin: 5vh;
 }
 
 
